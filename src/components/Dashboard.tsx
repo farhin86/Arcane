@@ -19,7 +19,12 @@ export const Dashboard: React.FC = () => {
               if (existing) {
                 return existing;
               }
-              return condition;
+              // return condition;
+              // fix 1
+              return {
+                ...condition,
+                passed: false,
+              };
             }),
           },
         };

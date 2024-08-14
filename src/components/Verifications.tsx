@@ -8,10 +8,21 @@ interface Props {
 
 export const Verifications: React.FC<Props> = ({ verifications, onChange }) => {
   const handleChange = (vIndex: number, cIndex: number, value: boolean) => {
-    const v = structuredClone(verifications);
-    
-    v[vIndex].eligibility.checks[cIndex].passed = value;
-    onChange(v);
+    // if two keys of an object has reference to same object,
+    // then structuredClone makes sure both of the keys still have same refrence (to new object)
+    // const v = structuredClone(verifications);
+
+    // v[vIndex].eligibility.checks[cIndex].passed = value;
+
+    // fix 2
+    // because of the above explained behaviour of the structuredClone we must make a copy of condition object
+    const condition = verifications[vIndex].eligibility.checks[cIndex];
+    verifications[vIndex].eligibility.checks[cIndex] = {
+      ...condition,
+      passed: value,
+    };
+
+    onChange(verifications);
   };
 
   return (
